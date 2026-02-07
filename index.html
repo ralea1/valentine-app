@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Be My Valentine ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ffd6e8, #fff);
+      overflow: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 390px; /* iPhone 13 width */
+      height: 100vh;
+      max-height: 844px; /* iPhone 13 height */
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: #e63975;
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: #555;
+      margin-bottom: 32px;
+      font-size: 1.1rem;
+    }
+
+    .buttons {
+      position: relative;
+      height: 180px;
+      width: 100%;
+    }
+
+    button {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 999px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s ease;
+      position: absolute;
+      user-select: none;
+    }
+
+    #yesBtn {
+      background: #ff4d88;
+      color: white;
+      left: 50%;
+      top: 40px;
+      transform: translateX(-120%);
+      box-shadow: 0 6px 15px rgba(255,77,136,0.4);
+    }
+
+    #noBtn {
+      background: #f2f2f2;
+      color: #444;
+      left: 50%;
+      top: 40px;
+      transform: translateX(20%);
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    /* Success Page */
+    .success {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      position: relative;
+      background: linear-gradient(135deg, #ffe6f0, #fff);
+    }
+
+    .success h1 {
+      margin-bottom: 12px;
+    }
+
+    .message {
+      font-size: 1rem;
+      color: #e63975;
+      margin-bottom: 20px;
+      padding: 0 10px;
+    }
+
+    .photo {
+      width: 90%;
+      max-width: 300px;
+      aspect-ratio: 9/16;
+      background: #ffe6f0;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Floating Hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-900px) scale(1.8);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="mainPage">
+    <h1>Nicoleta ❤️</h1>
+    <p>Will you be my Valentine?</p>
+
+    <div class="buttons">
+      <button id="yesBtn">Yes 💖</button>
+      <button id="noBtn">No 🙈</button>
+    </div>
+  </div>
+
+  <div class="container success" id="successPage">
+    <h1>Yaaay! 💕</h1>
+
+    <div class="message">
+      Îți mulțumesc enorm de mult că faci parte din viața mea.<br>
+      Te iubesc, puiu meu 🐥❤️
+    </div>
+
+    <div class="photo">
+      <!-- Replace src with your Canva image -->
+      <img src="UsTogether.jpg" alt="Us Together">
+    </div>
+
+    <p>Happy Valentine’s Day, my love 💌</p>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const mainPage = document.getElementById("mainPage");
+    const successPage = document.getElementById("successPage");
+
+    let speed = 1.2; // makes it harder over time 😈
+
+    function moveNoButton() {
+      const container = document.querySelector(".buttons");
+
+      const maxX = container.clientWidth - noBtn.clientWidth;
+      const maxY = container.clientHeight - noBtn.clientHeight;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+
+      // Increase speed every time
+      speed += 0.3;
+      noBtn.style.transition = `all ${0.15 / speed}s linear`;
+    }
+
+    // Run away on EVERYTHING 😈
+    ["mouseenter", "touchstart", "touchmove", "mouseover", "click"].forEach(event => {
+      noBtn.addEventListener(event, moveNoButton);
+    });
+
+    yesBtn.addEventListener("click", () => {
+      mainPage.style.display = "none";
+      successPage.style.display = "flex";
+      startHearts();
+    });
+
+    /* Create floating hearts */
+    function startHearts() {
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = 16 + Math.random() * 24 + "px";
+        heart.style.animationDuration = 4 + Math.random() * 4 + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 7000);
+      }, 300);
+    }
+  </script>
+
+</body>
+</html>
